@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  
+  /* 🚀 NEW AAKRUTI LUXURY COLORS */
+  --color-brand-black: #3A2318; /* Deep Brown for Headers */
+  --color-brand-gray: #fff5eb;  /* Warm Peach */
+  --color-brand-border: #ffe4d6; /* Darker Peach for Borders */
+}
+
+@layer base {
+  /* Target EVERYTHING at the base level */
+  html, body, #root {
+    /* The Aakrutii Luxury Gradient */
+    background: linear-gradient(to right, #ffe4d6, #fff5eb, #ffe4d6) !important;
+    background-attachment: fixed !important; 
+    min-height: 100vh;
+    color: #5C3E2E; 
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #3A2318;
+  }
+}
+
+/* Smooth scrolling for the whole site */
+html {
+  scroll-behavior: smooth;
+}
