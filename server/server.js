@@ -9,7 +9,13 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:5173' }));
+app.use(cors({
+  origin: [
+    'http://localhost:5173', 
+    'https://aakrutii-backend.vercel.app' // 🚀 Your live Vercel URL!
+  ],
+  credentials: true 
+}));
 app.use(express.json()); // Parse JSON bodies
 
 // Database Connection
