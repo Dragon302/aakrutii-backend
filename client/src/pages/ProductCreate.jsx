@@ -29,7 +29,7 @@ const ProductCreate = () => {
 
     try {
       const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-      const { data } = await axios.post('http://localhost:5000/api/upload', formData, config);
+      const { data } = await axios.post('https://aakrutii-backend.onrender.com/api/upload', formData, config);
       
       if (type === 'image') setImage(data);
       if (type === 'model') setModel3d(data);
@@ -53,7 +53,7 @@ const ProductCreate = () => {
       const imagesArray = additionalImages ? additionalImages.split(',').map(url => url.trim()).filter(url => url !== '') : [];
 
       // NOTICE: We use POST here to create a new item, instead of PUT!
-      await axios.post(`http://localhost:5000/api/products`, {
+      await axios.post(`https://aakrutii-backend.onrender.com/api/products`, {
         name, 
         price, 
         discountPrice, 

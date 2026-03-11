@@ -11,7 +11,7 @@ const Home = () => {
     useEffect(() => {
         const fetchFeaturedProduct = async () => {
             try {
-                const { data } = await axios.get('http://localhost:5000/api/products');
+                const { data } = await axios.get('https://aakrutii-backend.onrender.com/api/products');
                 if (data && data.length > 0) {
                     setFeaturedProduct(data[0]); 
                 }

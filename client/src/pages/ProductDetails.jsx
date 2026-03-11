@@ -30,7 +30,7 @@ const ProductDetails = () => {
   // 1. Merged and Fixed Data Fetching
   const fetchProduct = async () => {
     try {
-      const { data } = await axios.get(`http://localhost:5000/api/products/${id}`);
+      const { data } = await axios.get(`https://aakrutii-backend.onrender.com/api/products/${id}`);
       setProduct(data);
       setSelectedImage(data.image); // Set initial main image
     } catch (error) {
@@ -55,7 +55,7 @@ const ProductDetails = () => {
     e.preventDefault();
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.post(`http://localhost:5000/api/products/${id}/reviews`, { rating, comment }, config);
+      await axios.post(`https://aakrutii-backend.onrender.com/api/products/${id}/reviews`, { rating, comment }, config);
       setComment('');
       setReviewError('');
       fetchProduct(); // Refresh to show new review

@@ -12,7 +12,7 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/forms/messages', formData);
+      await axios.post('https://aakrutii-backend.onrender.com/api/forms/messages', formData);
       setIsSubmitted(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
       setTimeout(() => setIsSubmitted(false), 5000);

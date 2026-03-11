@@ -25,15 +25,15 @@ const Admin = () => {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
         
         // Fetch Inventory
-        const { data: prodData } = await axios.get('http://localhost:5000/api/products');
+        const { data: prodData } = await axios.get('https://aakrutii-backend.onrender.com/api/products');
         setProducts(prodData);
 
         // Fetch Messages
-        const { data: msgData } = await axios.get('http://localhost:5000/api/forms/messages', config);
+        const { data: msgData } = await axios.get('https://aakrutii-backend.onrender.com/api/forms/messages', config);
         setMessages(msgData);
 
         // Fetch Custom Prints
-        const { data: printData } = await axios.get('http://localhost:5000/api/forms/prints', config);
+        const { data: printData } = await axios.get('https://aakrutii-backend.onrender.com/api/forms/prints', config);
         setPrints(printData);
 
       } catch (error) {
@@ -62,7 +62,7 @@ const Admin = () => {
         };
 
         // Send it to the database
-        const { data } = await axios.post(`http://localhost:5000/api/products`, emptyProduct, config);
+        const { data } = await axios.post(`https://aakrutii-backend.onrender.com/api/products`, emptyProduct, config);
         
         // Instantly redirect to edit this new draft!
         const newProductId = data._id || data.product._id; 
@@ -77,7 +77,7 @@ const Admin = () => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        await axios.delete(`http://localhost:5000/api/products/${id}`, config);
+        await axios.delete(`https://aakrutii-backend.onrender.com/api/products/${id}`, config);
         setProducts(products.filter((p) => p._id !== id));
       } catch (error) { alert('Failed to delete product'); }
     }
@@ -87,7 +87,7 @@ const Admin = () => {
     if (window.confirm('Delete this message?')) {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        await axios.delete(`http://localhost:5000/api/forms/messages/${id}`, config);
+        await axios.delete(`https://aakrutii-backend.onrender.com/api/forms/messages/${id}`, config);
         setMessages(messages.filter((m) => m._id !== id));
       } catch (error) { alert('Failed to delete message'); }
     }
@@ -97,7 +97,7 @@ const Admin = () => {
     if (window.confirm('Delete this print request?')) {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        await axios.delete(`http://localhost:5000/api/forms/prints/${id}`, config);
+        await axios.delete(`https://aakrutii-backend.onrender.com/api/forms/prints/${id}`, config);
         setPrints(prints.filter((p) => p._id !== id));
       } catch (error) { alert('Failed to delete print request'); }
     }
@@ -208,7 +208,7 @@ const Admin = () => {
                   </div>
                   
                   <div className="flex flex-col gap-3 min-w-[200px]">
-                    <a href={print.fileUrl?.startsWith('http') ? print.fileUrl : `http://localhost:5000${print.fileUrl}`} download target="_blank" rel="noreferrer" className="flex items-center justify-center bg-orange-500 text-white px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-orange-600 transition-colors">
+                    <a href={print.fileUrl?.startsWith('http') ? print.fileUrl : `https://aakrutii-backend.onrender.com${print.fileUrl}`} download target="_blank" rel="noreferrer" className="flex items-center justify-center bg-orange-500 text-white px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-orange-600 transition-colors">
                       <Download size={16} className="mr-2" /> Download File
                     </a>
                     <button onClick={() => deletePrint(print._id)} className="flex items-center justify-center bg-red-50 text-red-600 px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-red-100 transition-colors">

@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
   // Login Function
   const login = async (email, password) => {
     try {
-      const { data } = await axios.post('http://localhost:5000/api/users/login', { email, password });
+      const { data } = await axios.post('https://aakrutii-backend.onrender.com/api/users/login', { email, password });
       
       // 🚀 NEW: We check if the backend secretly told us it failed!
       if (data.success === false) {
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const { data } = await axios.post('http://localhost:5000/api/users/register', { name, email, password });
+      const { data } = await axios.post('https://aakrutii-backend.onrender.com/api/users/register', { name, email, password });
       setUser(data);
       localStorage.setItem('userInfo', JSON.stringify(data));
       return true; // Success

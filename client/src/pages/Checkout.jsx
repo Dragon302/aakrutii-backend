@@ -34,7 +34,7 @@ const Checkout = () => {
 
     try {
       // 1. Ask Node.js backend to create a Razorpay Order
-      const { data } = await axios.post('http://localhost:5000/api/payment/create-order', {
+      const { data } = await axios.post('https://aakrutii-backend.onrender.com/api/payment/create-order', {
         amount: cartTotal
       });
 
@@ -49,7 +49,7 @@ const Checkout = () => {
         handler: async function (response) {
           try {
             // 1. Verify Payment Signature
-            const verifyRes = await axios.post('http://localhost:5000/api/payment/verify', response);
+            const verifyRes = await axios.post('https://aakrutii-backend.onrender.com/api/payment/verify', response);
             
             if (verifyRes.data.success) {
               
@@ -58,7 +58,7 @@ const Checkout = () => {
                 headers: { Authorization: `Bearer ${user.token}` }
               };
               
-              await axios.post('http://localhost:5000/api/orders', {
+              await axios.post('https://aakrutii-backend.onrender.com/api/orders', {
                 orderItems: cartItems,
                 shippingAddress,
                 paymentMethod: 'Razorpay',

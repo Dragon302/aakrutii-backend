@@ -31,10 +31,10 @@ const CustomPrint = () => {
       const fileData = new FormData();
       fileData.append('file', file);
       const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-      const { data: fileUrl } = await axios.post('http://localhost:5000/api/upload', fileData, config);
+      const { data: fileUrl } = await axios.post('https://aakrutii-backend.onrender.com/api/upload', fileData, config);
 
       // 2. Save the Request to Database with the File URL
-      await axios.post('http://localhost:5000/api/forms/prints', { ...formData, fileUrl });
+      await axios.post('https://aakrutii-backend.onrender.com/api/forms/prints', { ...formData, fileUrl });
       
       setIsSubmitted(true);
       setFormData({ name: '', email: '', material: 'PLA', color: 'Black', details: '' });

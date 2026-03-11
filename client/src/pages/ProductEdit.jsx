@@ -26,7 +26,7 @@ const ProductEdit = () => {
 
     const fetchProduct = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:5000/api/products/${id}`);
+        const { data } = await axios.get(`https://aakrutii-backend.onrender.com/api/products/${id}`);
         setName(data.name);
         setPrice(data.price);
         setDiscountPrice(data.discountPrice || 0);
@@ -52,7 +52,7 @@ const ProductEdit = () => {
 
     try {
       const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-      const { data } = await axios.post('http://localhost:5000/api/upload', formData, config);
+      const { data } = await axios.post('https://aakrutii-backend.onrender.com/api/upload', formData, config);
       
       // Route the uploaded file to the right box!
       if (type === 'image') setImage(data);
@@ -78,7 +78,7 @@ const ProductEdit = () => {
       // Convert comma-separated string back to a clean array before saving
       const imagesArray = additionalImages.split(',').map(url => url.trim()).filter(url => url !== '');
 
-      await axios.put(`http://localhost:5000/api/products/${id}`, {
+      await axios.put(`https://aakrutii-backend.onrender.com/api/products/${id}`, {
         name, 
         price, 
         discountPrice, 
