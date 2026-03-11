@@ -1,21 +1,19 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  server: {
-    proxy: {
-      // This forwards API calls to your backend
-      '/api': {
-        target: 'https://aakrutii-backend.onrender.com',
-        changeOrigin: true,
-      },
-      // 🚀 THIS IS THE MISSING LINK! 
-      // It forwards file requests to your backend
-      '/uploads': {
-        target: 'https://aakrutii-backend.onrender.com',
-        changeOrigin: true,
+  build: {
+    // This stops the warning from showing up
+    chunkSizeWarningLimit: 1600, 
+    rollupOptions: {
+      output: {
+        // This splits your code into smaller, faster chunks!
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return id.toString().split('node_modules/')[1].split('/')[0].toString();
+          }
+        }
       }
     }
   }
