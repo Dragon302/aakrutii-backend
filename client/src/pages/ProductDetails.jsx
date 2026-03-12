@@ -27,6 +27,19 @@ const ProductDetails = () => {
 
   const demo3DModelUrl = "https://modelviewer.dev/shared-assets/models/Astronaut.glb";
 
+  // 🚀 THE MAGIC MEDIA FIXER
+  // This ensures Vercel never tries to load a file it doesn't have!
+  const getMediaUrl = (path) => {
+    if (!path) return '';
+    if (path.includes('localhost:5000')) {
+      return path.replace('http://localhost:5000', 'https://aakrutii-backend.onrender.com');
+    }
+    if (path.startsWith('/uploads')) {
+      return `https://aakrutii-backend.onrender.com${path}`;
+    }
+    return path;
+  };
+
   // 1. Merged and Fixed Data Fetching
   const fetchProduct = async () => {
     try {
@@ -91,7 +104,6 @@ const ProductDetails = () => {
               >
                 <ImageIcon size={16} className="mr-2" /> Photos
               </button>
-              {/* Only show 3D button if the product actually has a 3D model, or use demo */}
               <button 
                 onClick={() => setViewMode('3d')} 
                 className={`flex-1 py-3 text-xs font-bold uppercase tracking-widest flex items-center justify-center transition-colors border ${viewMode === '3d' ? 'bg-black text-white border-black' : 'bg-white text-gray-500 border-gray-200 hover:border-black'}`}
@@ -104,7 +116,8 @@ const ProductDetails = () => {
             <div className="w-full h-[400px] md:h-[500px] bg-neutral-50 rounded-lg overflow-hidden border border-neutral-200 flex items-center justify-center relative shadow-inner">
               {viewMode === '3d' ? (
                 <model-viewer 
-                  src={product.model3d && product.model3d.includes('.glb') ? product.model3d : demo3DModelUrl} 
+                  // 🚀 Applied the fixer here!
+                  src={product.model3d && product.model3d.includes('.glb') ? getMediaUrl(product.model3d) : demo3DModelUrl} 
                   auto-rotate 
                   camera-controls 
                   ar 
@@ -117,7 +130,8 @@ const ProductDetails = () => {
                 </model-viewer>
               ) : (
                 <img 
-                  src={selectedImage || product.image} 
+                  // 🚀 Applied the fixer here!
+                  src={getMediaUrl(selectedImage || product.image)} 
                   alt={product.name} 
                   className="w-full h-full object-contain p-4 drop-shadow-xl transition-all duration-500" 
                 />
@@ -132,7 +146,8 @@ const ProductDetails = () => {
                     onClick={() => setSelectedImage(product.image)}
                     className={`flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${selectedImage === product.image ? 'border-black opacity-100' : 'border-transparent opacity-60 hover:opacity-100'}`}
                   >
-                    <img src={product.image} alt="Thumbnail" className="w-full h-full object-cover" />
+                    {/* 🚀 Applied the fixer here! */}
+                    <img src={getMediaUrl(product.image)} alt="Thumbnail" className="w-full h-full object-cover" />
                   </button>
                 )}
                 {product.additionalImages && product.additionalImages.map((img, index) => (
@@ -141,7 +156,8 @@ const ProductDetails = () => {
                     onClick={() => setSelectedImage(img)}
                     className={`flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${selectedImage === img ? 'border-black opacity-100' : 'border-transparent opacity-60 hover:opacity-100'}`}
                   >
-                    <img src={img} alt={`Thumbnail ${index}`} className="w-full h-full object-cover" />
+                    {/* 🚀 Applied the fixer here! */}
+                    <img src={getMediaUrl(img)} alt={`Thumbnail ${index}`} className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
