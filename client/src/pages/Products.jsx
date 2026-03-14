@@ -2,14 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { Search, X } from 'lucide-react'; // Imported Search and X icons
+import { Search, X } from 'lucide-react'; 
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  // 🚀 NEW: State to hold the user's search text
+  // State to hold the user's search text
   const [searchTerm, setSearchTerm] = useState('');
+
+  // 🚀 THE MAGIC MEDIA FIXER
+  // This forces the images to load from Render instead of Vercel or localhost
+  const getMediaUrl = (path) => {
+    if (!path) return '';
+    if (path.includes('localhost:5000')) {
+      return path.replace('http://localhost:5000', 'https://aakrutii-backend.onrender.com');
+    }
+    if (path.startsWith('/uploads')) {
+      return `https://aakrutii-backend.onrender.com${path}`;
+    }
+    return path;
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -25,7 +38,7 @@ const Products = () => {
     fetchProducts();
   }, []);
 
-  // 🚀 NEW: Filter products based on what the user types!
+  // Filter products based on what the user types!
   const filteredProducts = products.filter(product => 
     product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     (product.description && product.description.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -51,7 +64,7 @@ const Products = () => {
           <p className="text-[#5C3E2E] font-medium max-w-2xl mx-auto">Explore our premium collection of 3D models and meticulously crafted physical prints.</p>
         </div>
 
-        {/* 🚀 NEW: The Search Bar */}
+        {/* The Search Bar */}
         <motion.div 
           initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}
           className="max-w-2xl mx-auto mb-16 relative"
@@ -93,13 +106,14 @@ const Products = () => {
             <motion.div 
               initial={{ opacity: 0, y: 30 }} 
               animate={{ opacity: 1, y: 0 }} 
-              transition={{ duration: 0.5, delay: index * 0.05 }} // Faster stagger
+              transition={{ duration: 0.5, delay: index * 0.05 }} 
               key={product._id} 
               className="bg-white/60 backdrop-blur-md rounded-3xl overflow-hidden shadow-xl shadow-[#3A2318]/5 border border-white/50 group flex flex-col"
             >
               <Link to={`/product/${product._id}`} className="block relative h-64 bg-white/40 overflow-hidden flex items-center justify-center p-6">
                 <img 
-                  src={product.image} 
+                  // 🚀 APPLIED THE FIXER HERE!
+                  src={getMediaUrl(product.image)} 
                   alt={product.name} 
                   className="w-full h-full object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-700"
                 />
