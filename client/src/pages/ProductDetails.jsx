@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import StlViewer from '../components/StlViewer';
 import { ArrowLeft, Star, Box, Image as ImageIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -115,22 +116,30 @@ const ProductDetails = () => {
             {/* Main Display Area */}
             <div className="w-full h-[400px] md:h-[500px] bg-neutral-50 rounded-lg overflow-hidden border border-neutral-200 flex items-center justify-center relative shadow-inner">
               {viewMode === '3d' ? (
-                <model-viewer 
-                  // 🚀 Applied the fixer here!
-                  src={product.model3d && product.model3d.includes('.glb') ? getMediaUrl(product.model3d) : demo3DModelUrl} 
-                  auto-rotate 
-                  camera-controls 
-                  ar 
-                  shadow-intensity="1" 
-                  style={{ width: '100%', height: '100%' }}
-                >
-                   <div slot="poster" className="absolute inset-0 flex items-center justify-center bg-neutral-50 z-10">
-                    <p className="text-xs font-black text-neutral-400 uppercase tracking-widest animate-pulse">Loading 3D...</p>
-                  </div>
-                </model-viewer>
+                <>
+                  {/* 🚀 LOGIC 1: If it is an STL file, use our custom Three.js viewer */}
+                  {product.model3d && product.model3d.toLowerCase().endsWith('.stl') ? (
+                    <div className="w-full h-full cursor-grab active:cursor-grabbing">
+                      <StlViewer url={getMediaUrl(product.model3d)} />
+                    </div>
+                  ) : (
+                    /* 🚀 LOGIC 2: If it is a GLB file (or demo), use Google's model-viewer */
+                    <model-viewer 
+                      src={product.model3d && (product.model3d.toLowerCase().endsWith('.glb') || product.model3d.toLowerCase().endsWith('.gltf')) ? getMediaUrl(product.model3d) : demo3DModelUrl} 
+                      auto-rotate 
+                      camera-controls 
+                      ar 
+                      shadow-intensity="1" 
+                      style={{ width: '100%', height: '100%' }}
+                    >
+                       <div slot="poster" className="absolute inset-0 flex items-center justify-center bg-neutral-50 z-10">
+                        <p className="text-xs font-black text-neutral-400 uppercase tracking-widest animate-pulse">Loading 3D...</p>
+                      </div>
+                    </model-viewer>
+                  )}
+                </>
               ) : (
                 <img 
-                  // 🚀 Applied the fixer here!
                   src={getMediaUrl(selectedImage || product.image)} 
                   alt={product.name} 
                   className="w-full h-full object-contain p-4 drop-shadow-xl transition-all duration-500" 
@@ -146,7 +155,6 @@ const ProductDetails = () => {
                     onClick={() => setSelectedImage(product.image)}
                     className={`flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${selectedImage === product.image ? 'border-black opacity-100' : 'border-transparent opacity-60 hover:opacity-100'}`}
                   >
-                    {/* 🚀 Applied the fixer here! */}
                     <img src={getMediaUrl(product.image)} alt="Thumbnail" className="w-full h-full object-cover" />
                   </button>
                 )}
@@ -156,7 +164,6 @@ const ProductDetails = () => {
                     onClick={() => setSelectedImage(img)}
                     className={`flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${selectedImage === img ? 'border-black opacity-100' : 'border-transparent opacity-60 hover:opacity-100'}`}
                   >
-                    {/* 🚀 Applied the fixer here! */}
                     <img src={getMediaUrl(img)} alt={`Thumbnail ${index}`} className="w-full h-full object-cover" />
                   </button>
                 ))}
