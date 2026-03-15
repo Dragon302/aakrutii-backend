@@ -112,11 +112,10 @@ const Products = () => {
             >
               <Link to={`/product/${product._id}`} className="block relative h-64 bg-white/40 overflow-hidden flex items-center justify-center p-6">
                 <img 
-                  // 🚀 APPLIED THE FIXER HERE!
-                  src={getMediaUrl(product.image)} 
+                  src={`https://aakrutii-backend.onrender.com${product.image}`} 
                   alt={product.name} 
                   className="w-full h-full object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-700"
-                />
+/>
               </Link>
               
               <div className="p-6 flex flex-col flex-grow justify-between">
